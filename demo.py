@@ -65,43 +65,45 @@ class SentimentAnalysisApp(QWidget):
         words = [word.lower() for word in words if word.isalpha() and word.lower() not in self.stop_words]
         features = dict([(word, True) for word in words])
 
-        # Maxent prediction
-        prediction_maxent = self.model_maxent.classify(features)
-        sentiment_result_maxent = "Negative" if prediction_maxent == 0 else "Positive"
-        keywords_maxent = ' '.join(words)
-        result_text_maxent = (
-            '\n' + "*" * 40 +
-            f'\nMaxEnt Sentiment: \n{sentiment_result_maxent}\n' +
-            "*" * 40
-        )
-        self.result_label_maxent.setText(result_text_maxent)
+        if features:
 
-        # Naive Bayes prediction
-        prediction_naivebayes = self.model_naivebayes.classify(features)
-        sentiment_result_naivebayes = "Negative" if prediction_naivebayes == 0 else "Positive"
-        keywords_naivebayes = ' '.join(words)
-        result_text_naivebayes = (
-            '\n' + "*" * 40 +
-            f'\nNaive Bayes Sentiment: \n{sentiment_result_naivebayes}\n' +
-            "*" * 40
-        )
-        self.result_label_naivebayes.setText(result_text_naivebayes)
+            # Maxent prediction
+            prediction_maxent = self.model_maxent.classify(features)
+            sentiment_result_maxent = "Negative" if prediction_maxent == 0 else "Positive"
+            keywords_maxent = ' '.join(words)
+            result_text_maxent = (
+                '\n' + "*" * 40 +
+                f'\nMaxEnt Sentiment: \n{sentiment_result_maxent}\n' +
+                "*" * 40
+            )
+            self.result_label_maxent.setText(result_text_maxent)
 
-        # LSTM prediction
-        self.tokenizer.fit_on_texts([input_review])
-        sequence = self.tokenizer.texts_to_sequences([words])
-        padded_sequence = pad_sequences(sequence, maxlen=self.maxlen)  # Adjusted to the correct sequence length
-        prediction_lstm = self.model_lstm.predict(np.array(padded_sequence))
-        sentiment_result_lstm = "Negative" if prediction_lstm < 0.5 else "Positive"
-        keywords_lstm = ' '.join(words)
-        result_text_lstm = (
-            '\n' + "*" * 40 +
-            f'\nLSTM Sentiment: \n{sentiment_result_lstm}\n' +
-            "*" * 40 +
-            f'\nKeywords: {keywords_lstm}\n'
-        )
-        self.result_label_lstm.setText(result_text_lstm)
+            # Naive Bayes prediction
+            prediction_naivebayes = self.model_naivebayes.classify(features)
+            sentiment_result_naivebayes = "Negative" if prediction_naivebayes == 0 else "Positive"
+            keywords_naivebayes = ' '.join(words)
+            result_text_naivebayes = (
+                '\n' + "*" * 40 +
+                f'\nNaive Bayes Sentiment: \n{sentiment_result_naivebayes}\n' +
+                "*" * 40
+            )
+            self.result_label_naivebayes.setText(result_text_naivebayes)
 
+            # LSTM prediction
+            self.tokenizer.fit_on_texts([input_review])
+            sequence = self.tokenizer.texts_to_sequences([words])
+            padded_sequence = pad_sequences(sequence, maxlen=self.maxlen)  # Adjusted to the correct sequence length
+            prediction_lstm = self.model_lstm.predict(np.array(padded_sequence))
+            sentiment_result_lstm = "Negative" if prediction_lstm < 0.5 else "Positive"
+            keywords_lstm = ' '.join(words)
+            result_text_lstm = (
+                '\n' + "*" * 40 +
+                f'\nLSTM Sentiment: \n{sentiment_result_lstm}\n' +
+                "*" * 40 +
+                f'\nKeywords: {keywords_lstm}\n'
+            )
+            self.result_label_lstm.setText(result_text_lstm)
+        
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = SentimentAnalysisApp()
