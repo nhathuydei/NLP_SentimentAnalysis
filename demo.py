@@ -87,17 +87,6 @@ class SentimentAnalysisApp(QWidget):
         )
         self.result_label_naivebayes.setText(result_text_naivebayes)
 
-        # Naive Bayes prediction
-        prediction_naivebayes = self.model_naivebayes.classify(features)
-        sentiment_result_naivebayes = "Negative" if prediction_naivebayes == 0 else "Positive"
-        keywords_naivebayes = ' '.join(words)
-        result_text_naivebayes = (
-            '\n' + "*" * 40 +
-            f'\nNaive Bayes Sentiment: \n{sentiment_result_naivebayes}\n' +
-            "*" * 40
-        )
-        self.result_label_naivebayes.setText(result_text_naivebayes)
-
         # LSTM prediction
         self.tokenizer.fit_on_texts([input_review])
         sequence = self.tokenizer.texts_to_sequences([words])
