@@ -1,6 +1,8 @@
 # NLP_SentimentAnalysys
 # Sentiment Analysis Project
 
+![GitHub](https://img.shields.io/badge/GitHub-Project-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 This repository contains the code and resources for a sentiment analysis project focused on analyzing customer reviews of restaurants on the Zomato platform. The project leverages Natural Language Processing (NLP) techniques and explores three different models: LSTM, Naive Bayes, and MaxEnt.
 
 ## Project Structure
